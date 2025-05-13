@@ -1,0 +1,66 @@
+# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-maven
+
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+# name: Java CI with Maven
+
+# on:
+#   push:
+#     branches: [ "master" ]
+#   pull_request:
+#     branches: [ "master" ]
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - 'v*'  # Trigger on version tags like v1.0.0
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up JDK 21
+      uses: actions/setup-java@v4
+      with:
+        java-version: '21'
+        distribution: 'temurin'
+        cache: maven
+        
+    - name: Build with Maven
+      run: mvn -B clean javafx:jlink --file pom.xml
+    - name: Package with jpackage
+      run: |
+           jpackage \
+           --dest target \
+           --runtime-image target/app \
+           --name "JDK8+ CertImporter" \
+           --module io.github.kambaa.javafxdemo/io.github.kambaa.javafxdemo.JavaFxApplication \
+           --type app-image \
+           --icon src/main/resources/icon.png
+    - name: Zip packaged app
+      run: |
+          cd target
+          zip -r "JDK8+ CertImporter.zip" "JDK8+ CertImporter"
+    - name: List Generated Application Datas
+      run: |
+          cd target
+          ls -la
+    - name: Upload release asset
+      uses: softprops/action-gh-release@v2
+      with:
+        files: "target/JDK8+ CertImporter.zip"
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}      
+
+
+    # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
+    # - name: Update dependency graph
+    #   uses: advanced-security/maven-dependency-submission-action@571e99aab1055c2e71a1e2309b9691de18d6b7d6

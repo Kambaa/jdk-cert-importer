@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.github.kambaa.javafxdemo.MainController">
+    <children>
+      <Group layoutX="4.0" layoutY="4.0">
+         <children>
+              <Button fx:id="jdkDirButton" mnemonicParsing="false" onAction="#handleSelectJdkDirectory" prefHeight="25.0" prefWidth="113.0" text="Select JDK Dir" />
+              <Button fx:id="certFileSelectButton" layoutY="29.0" mnemonicParsing="false" onAction="#handleSelectCertFile" prefHeight="25.0" prefWidth="113.0" text="Select Certificate" />
+            <Button fx:id="doOperationButton" layoutX="125.0" mnemonicParsing="false" onAction="#handleCertSaveToTrustStore" prefHeight="25.0" prefWidth="256.0" text="Add Certificate To Trusted Store" visible="false" />
+            <PasswordField fx:id="storePasswordField" layoutX="125.0" layoutY="29.0" prefHeight="25.0" prefWidth="318.0" promptText="Trust store password (default: changeit)" visible="false">
+               <tooltip>
+                  <Tooltip text="Leave Empty To Use Default" />
+               </tooltip>
+            </PasswordField>
+            <Button fx:id="resetButton" layoutX="397.0" mnemonicParsing="false" onAction="#handleReset" text="Reset" visible="false" />
+         </children>
+      </Group>
+        <TextArea fx:id="textArea" editable="false" layoutX="2.0" layoutY="64.0" prefHeight="223.0" prefWidth="444.0" wrapText="true" />
+    </children>
+</AnchorPane>
