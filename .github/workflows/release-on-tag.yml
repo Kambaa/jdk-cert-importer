@@ -1,0 +1,95 @@
+name: Package And Relase The App For Linux And Windows
+
+on:
+  push:
+    tags:
+      - 'v*'  # Triggers only on version tags like v1.0.0
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+    name: Build on Linux
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+          cache: 'maven'
+
+      - name: List files debug
+        run: ls -l .
+
+      - name: Make Maven wrapper executable
+        run: chmod +x ./mvnw
+
+      - name: Build with Maven
+        run: ./mvnw package --no-transfer-progress
+
+      - name: Tar output
+        run: |
+          cd "target/JDK8+ CertImporter"
+          tar -czf "../../JDK8+CertImporter-linux-${{ github.ref_name }}.tar.gz" .
+          
+      - name: List files for debug
+        run: ls -l ../../    
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-artifact
+          path: JDK8+CertImporter-linux-${{ github.ref_name }}.tar.gz
+     
+  build-windows:
+    runs-on: windows-latest
+    name: Build on Windows
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Build with Maven
+        run: .\mvnw.cmd package --no-transfer-progress
+
+     
+      - name: Zip output
+        run: |
+          $source = "target/JDK8+ CertImporter/*"
+          $destination = "JDK8+CertImporter-windows-${{ github.ref_name }}.zip"
+          Compress-Archive -Path $source -DestinationPath $destination
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-artifact
+          path: JDK8+CertImporter-windows-${{ github.ref_name }}.zip
+
+  release:
+    needs: [build-linux, build-windows]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Linux artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: linux-artifact
+
+      - name: Download Windows artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: windows-artifact
+
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            JDK8+CertImporter-linux-${{ github.ref_name }}.tar.gz
+            JDK8+CertImporter-windows-${{ github.ref_name }}.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
