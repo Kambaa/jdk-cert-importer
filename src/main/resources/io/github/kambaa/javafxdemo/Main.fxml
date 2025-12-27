@@ -19,7 +19,8 @@
                   <Tooltip text="Leave Empty To Use Default" />
                </tooltip>
             </PasswordField>
-            <Button fx:id="resetButton" layoutX="397.0" mnemonicParsing="false" onAction="#handleReset" text="Reset" visible="false" />
+            <Button fx:id="resetButton" layoutX="397.0" mnemonicParsing="false" onAction="#handleReset" text="Reset" visible="false"/>
+            <Button fx:id="testButton" layoutX="397.0" layoutY="29.0" mnemonicParsing="false" onAction="#handleTest" prefHeight="25.0" prefWidth="44.0" text="Test" visible="false" />
          </children>
       </Group>
         <TextArea fx:id="textArea" editable="false" layoutX="2.0" layoutY="64.0" prefHeight="223.0" prefWidth="444.0" wrapText="true" />
