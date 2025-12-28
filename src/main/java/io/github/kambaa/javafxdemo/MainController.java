@@ -8,6 +8,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
@@ -247,9 +248,12 @@ public class MainController {
     // dialog.setContentText("");
 
     Stage stage = (Stage) dialog.getDialogPane().getScene().getWindow();
-    stage.getIcons().add(
-        new Image("file:src/main/resources/icon.png")
-    );
+    URL iconUrl = getClass().getResource("/icon.png");
+    if (iconUrl != null) {
+      stage.getIcons().add(new Image(iconUrl.toString()));
+    } else {
+      System.err.println("Icon not found!");
+    }
 
     Optional<String> result = dialog.showAndWait();
 

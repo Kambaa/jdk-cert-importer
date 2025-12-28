@@ -14,7 +14,9 @@ public class JavaFxApplication extends Application {
     FXMLLoader fxmlLoader = new FXMLLoader(JavaFxApplication.class.getResource("Main.fxml"));
     Scene scene = new Scene(fxmlLoader.load());
     stage.setResizable(false);
-    stage.getIcons().add(new Image("file:src/main/resources/icon.png"));
+    stage.getIcons().add(
+        new Image("file:src/main/resources/icon.png")
+    );
     URL iconUrl = getClass().getResource("/icon.png");
     if (iconUrl != null) {
       stage.getIcons().add(new Image(iconUrl.toString()));
