@@ -18,6 +18,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Tooltip;
+import javafx.scene.image.Image;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -244,6 +245,11 @@ public class MainController {
     dialog.setTitle("Enter Ip/Hostname and Port To Check SSL");
     dialog.setHeaderText("i.e: github.com or google.com.tr:443");
     // dialog.setContentText("");
+
+    Stage stage = (Stage) dialog.getDialogPane().getScene().getWindow();
+    stage.getIcons().add(
+        new Image("file:src/main/resources/icon.png")
+    );
 
     Optional<String> result = dialog.showAndWait();
 
