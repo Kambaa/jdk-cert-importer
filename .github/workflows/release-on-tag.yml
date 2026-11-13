@@ -31,7 +31,7 @@ jobs:
 
       - name: Tar output
         run: |
-          cd "target/JDK8+ CertImporter"
+          cd "target/JDK8+CertImporter"
           tar -czf "../../JDK8+CertImporter-linux-${{ github.ref_name }}.tar.gz" .
           
       - name: List files for debug
@@ -62,7 +62,7 @@ jobs:
      
       - name: Zip output
         run: |
-          $source = "target/JDK8+ CertImporter/*"
+          $source = "target/JDK8+CertImporter/*"
           $destination = "JDK8+CertImporter-windows-${{ github.ref_name }}.zip"
           Compress-Archive -Path $source -DestinationPath $destination
       - name: Upload artifact

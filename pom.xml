@@ -12,18 +12,19 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <junit.version>5.10.2</junit.version>
+        <javafx.version>21</javafx.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>21</version>
+            <version>${javafx.version}</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
-            <version>17.0.6</version>
+            <version>${javafx.version}</version>
         </dependency>
 
         <dependency>
@@ -51,12 +52,12 @@
                     <target>21</target>
                 </configuration>
             </plugin>
+
             <plugin>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.8</version>
                 <executions>
-                    <!-- This execution ensures javafx:jlink is ran before packaging -->
                     <execution>
                         <id>jlink</id>
                         <phase>prepare-package</phase>
@@ -73,10 +74,11 @@
                             <noManPages>true</noManPages>
                             <stripDebug>true</stripDebug>
                             <noHeaderFiles>true</noHeaderFiles>
+                            <compress>2</compress>
                         </configuration>
                     </execution>
+
                     <execution>
-                        <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
@@ -88,10 +90,15 @@
                             <noManPages>true</noManPages>
                             <stripDebug>true</stripDebug>
                             <noHeaderFiles>true</noHeaderFiles>
+
+                            <options>
+                                <option>-Dprism.order=sw</option>
+                            </options>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
+
         </plugins>
 
     </build>
@@ -125,11 +132,15 @@
                                         <argument>--runtime-image</argument>
                                         <argument>target/app</argument>
                                         <argument>--name</argument>
-                                        <argument>JDK8+ CertImporter</argument>
+                                        <argument>JDK8+CertImporter</argument>
                                         <argument>--module</argument>
-                                        <argument>io.github.kambaa.javafxdemo/io.github.kambaa.javafxdemo.JavaFxApplication</argument>
+                                        <argument>
+                                            io.github.kambaa.javafxdemo/io.github.kambaa.javafxdemo.JavaFxApplication
+                                        </argument>
                                         <argument>--type</argument>
                                         <argument>app-image</argument>
+                                        <argument>--java-options</argument>
+                                        <argument>-Dprism.order=sw</argument>
                                         <argument>--icon</argument>
                                         <argument>src/main/resources/app.ico</argument>
                                     </arguments>
@@ -169,9 +180,11 @@
                                         <argument>--runtime-image</argument>
                                         <argument>target/app</argument>
                                         <argument>--name</argument>
-                                        <argument>JDK8+ CertImporter</argument>
+                                        <argument>JDK8+CertImporter</argument>
                                         <argument>--module</argument>
-                                        <argument>io.github.kambaa.javafxdemo/io.github.kambaa.javafxdemo.JavaFxApplication</argument>
+                                        <argument>
+                                            io.github.kambaa.javafxdemo/io.github.kambaa.javafxdemo.JavaFxApplication
+                                        </argument>
                                         <argument>--type</argument>
                                         <argument>app-image</argument>
                                         <argument>--icon</argument>
